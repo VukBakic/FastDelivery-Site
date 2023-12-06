@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome/css/all.css">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Fast Delivery - O nama</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <script src="js/jquery-3.4.1.js" ></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+      $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
+
+    <a id="button"><i class="fas fa-angle-double-up text-white"></i></a>
+
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="index.html">
+                    <img id="light-logo" class="logo" src="images/logo_light.png"></img>
+                    <img id="dark-logo" class=" logo hidden-logo" src="images/logo.png"></img>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars toggler"></i>
+
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Početna </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link disabled" href="onama.html">O&#8239;nama</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="restorani.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Restorani
+                        </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="restorani.html?opstina=vracar">Vračar</a>
+                                <a class="dropdown-item" href="restorani.html?opstina=zvezdara">Zvezdara</a>
+                                <a class="dropdown-item" href="restorani.html?opstina=palilula">Palilula</a>
+                                <a class="dropdown-item" href="restorani.html?opstina=novi-beograd">Novi Beograd</a>
+
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="dostava.html">Dostava</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="kontakt.html">Kontakt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="korpa.html"><i class="fa fa-shopping-cart"></i> </a>
+                        </li>
+                        <li class="nav-item ml-md-2">
+                          <form class="forma-pretrage" action="restorani.html">
+                              <input class="pretraga" name="search" type="text" placeholder="pretraga...">
+                              <i class="fa fa-search"></i>
+                          </form>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="images/serbia.png"></img>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="en/about.html"><img src="images/united-kingdom.png"></img>&nbsp;English</a>
+
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <nav aria-label="breadcrumb" class="dropdown-putanja">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page">O Nama</li>
+            </ol>
+        </nav>
+    </div>
+    <div id="headerSlike" class="carousel slide" data-ride="carousel" data-interval="5000">
+        <div class="carousel-inner">
+            <div class="carousel-item active headerImg">
+                <img src="images/cover1.jpg" class="d-block w-100" alt="First slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">DOSTAVA HRANE</h1>
+                    <p class="display-undertext">Naručite hranu iz najboljih restorana u Beogradu.</p>
+                </div>
+            </div>
+            <div class="carousel-item headerImg">
+                <img src="images/cover2.jpg" class="d-block w-100" alt="Second slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">DOSTAVA HRANE</h1>
+                    <p class="display-undertext">Naručite hranu iz najboljih restorana u Beogradu.</p>
+                </div>
+            </div>
+            <div class="carousel-item headerImg">
+                <img src="images/cover3.jpg" class="d-block w-100" alt="Third slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">DOSTAVA HRANE</h1>
+                    <p class="display-undertext">Naručite hranu iz najboljih restorana u Beogradu.</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#headerSlike" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#headerSlike" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <div class="content-holder">
+      <div class="container mt-5 mt-sm-0">
+          <div class="row pt-3">
+                <div class="col-sm-12 col-md-6 col-lg-8">
+                    <div class="about-title clearfix mt-5">
+                      <h1>O nasem <span class="big-ping-text">Portalu</span></h1>
+                      <h3>Najbolji servis za dostavu hrane</h3>
+                      <p class="about-paddingB">Nalazimo se u Beogradu i bavimo se dostavom hrane iz restorana jos od 2017. godine. Cilj nam je da pružimo našim korisnicima brzu i pristupačnu dostavu. Sarađujemo sa mnogobrojnim restoranima, fast food lancima i picerijama. Vršimo dostavu na opštinama Novi Beograd, Zvezdara, Vračar i Palilula. Ono što nas izdvaja od konkurencije je jednostavnost naručivanja putem našeg web portala. </p>
+                      <p>Uverite se i sami zašto smo <span class="pink-text"><b>najbolji</b></span> u gradu. </p>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                  <div class="card card-cascade narrower text-center">
+
+
+                          <div class="image-card-holder">
+                              <img class="card-img-top dropshadow" src="images/mojaslika.jpg" alt="Card image cap">
+                              <div class="overlay">
+                              </div>
+                          </div>
+                          <a>
+                              <div class="mask rgba-white-slight"></div>
+                          </a>
+
+
+                      <!-- Card content -->
+                      <div class="card-body card-body-cascade">
+
+                          <h4 class="font-weight-bold card-title ">Vuk Bakic</h4>
+                          <h6 class="font-weight-bold indigo-text py-2">Autor portala</h6>
+                          <!-- Text -->
+                          <p class="card-text">Student Elektrotehničkog fakulteta u Beogradu, Odsek Softversko Inženjerstvo. Veštine: HTML5, CSS3, JavaScript, jQuery, Bootstrap4 </p>
+                          <div class="social text-center">
+                            <a href="https://www.facebook.com" target="_blank" type="button" class="btn-floating btn-small btn-fb" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+
+                            <a href="https://www.twitter.com" target="_blank" type="button" class="btn-floating btn-small btn-tw" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fab fa-twitter"></i></a>
+
+                            <a href="https://www.google.com" target="_blank" type="button" class="btn-floating btn-small btn-web"data-toggle="tooltip" data-placement="bottom" title="Website"><i class="fas fa-globe-europe"></i></a>
+                          </div>
+                      </div>
+                      <div class="card-footer text-muted text-center mt-4">
+
+                      </div>
+
+                  </div>
+                </div>
+              </div>
+        </div>
+        <hr>
+        <div class="container">
+
+            <div class="banner-section">
+                <div class="container">
+                    <div class="row p-5 justify-content-around text-center">
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="images/banner1.png"></img>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="images/banner2.png"></img>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="images/banner3.png"></img>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="images/banner4.png"></img>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer" class="container">
+        <div class="row">
+            <div class="col text-center p-3">
+                <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-square fa-2x footer-text"></i></a>
+                <a href="https://rs.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-2x footer-text"></i></a>
+                <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter-square fa-2x footer-text"></i></a>
+                <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube-square fa-2x footer-text"></i></a>
+                <hr>
+                <span class="footer-text"><i class="far fa-copyright"></i> Copyright 2019, Vuk Bakić, Одсек за софтверско инжењерство Електротехничког факултета Универзитета у Београду</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

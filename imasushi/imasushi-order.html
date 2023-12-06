@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/fontawesome/css/all.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <title>IMA SUSHi</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src = "../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/script.js"></script>
+    <script>
+        let cenaDostave;
+        let restoran;
+        let freeShipping;
+        let min;
+        $(document).ready(function() {
+          cenaDostave = parseInt($('#original-delivery-price').text());
+          restoran =  $('#restoran').attr('rel');
+          freeShipping = parseInt($("#free-shipping").attr('rel'));
+          min = parseInt($("#minimal-delivery").text());
+          /* DOHVATANJE KORPE */
+          let storage = JSON.parse(sessionStorage.getItem("dostava"));
+          if(storage!=null){
+            if(restoran in storage){
+              $("#continue").removeClass("none");
+              let i = 0;
+              storage[restoran].orders.forEach(object => {
+
+                let html = `<div class="d-flex flex-row">
+                            <div class="mr-auto"><a href="javascript:;" onclick="obrisi(this)" rel="${i++}"><i class="fas fa-trash-alt"></i></a> ${object.name}</div>
+                            <div><span>${object.price}</span> RSD</div>
+                        </div>`
+                $("#dodato").append(html);
+              });
+              $("#food-price").text(storage[restoran].price);
+              $("#total-price").text(storage[restoran].total);
+
+              if(storage[restoran].price>min && freeShipping){
+                $("#delivery-price").text("Besplatna");
+                $(".isfree").text("");
+              }
+            }
+          }
+
+        });
+        function obrisi(object){
+          let i = $(object).attr('rel');
+          let storage = JSON.parse(sessionStorage.getItem("dostava"));
+          storage[restoran].orders.splice(i,1);
+          storage[restoran].price=0;
+          storage[restoran].total=0;
+          storage[restoran].orders.forEach(object => {
+            storage[restoran].price+=object.price;
+          });
+          let deliveryPrice = storage[restoran].price>min &&freeShipping?0:cenaDostave;
+          storage[restoran].deliver=deliveryPrice;
+          storage[restoran].total=storage[restoran].price+deliveryPrice;
+          $("#food-price").text(storage[restoran].price);
+          $("#total-price").text(storage[restoran].total);
+          if(storage[restoran].price>min){
+            $("#delivery-price").text("Besplatna");
+            $(".isfree").text("");
+          }else{
+            $("#delivery-price").text(cenaDostave);
+            $(".isfree").text(" RSD");
+          }
+
+          if(storage[restoran].orders.length==0){
+            delete storage[restoran];
+            $("#continue").addClass("none");
+          }
+          if(Object.keys(storage).length){
+            sessionStorage.setItem("dostava", JSON.stringify(storage));
+          }else{
+            sessionStorage.removeItem('dostava');
+          }
+
+          $(object).parent().parent().remove();
+
+        }
+        function dodaj(br) {
+            let storage = JSON.parse(sessionStorage.getItem("dostava"));
+            if(storage == null) storage = {};
+            let i=0;
+            if(restoran in storage){
+              i=storage[restoran].orders.length;
+            }else{
+              $("#continue").removeClass("none");
+            }
+            let selected = $($(".card-horizontal-2")[br]);
+            let foodName = selected.find(".foodname").text();
+            let foodPrice = parseInt(selected.find(".cena").text());
+            let html = `<div class="d-flex flex-row">
+                        <div class="mr-auto"><a href="javascript:;" onclick="obrisi(this)" rel="${i}"><i class="fas fa-trash-alt"></i></a> ${foodName}</div>
+                        <div><span>${foodPrice}</span> RSD</div>
+                    </div>`
+            $("#dodato").append(html);
+            let price = parseInt($("#food-price").text())+foodPrice;
+            $("#food-price").text(price);
+
+            let deliveryPrice = price>min &&freeShipping?0:cenaDostave;
+
+            if(price>min && freeShipping){
+              $("#delivery-price").text("Besplatna");
+              $(".isfree").text("");
+            }
+
+            let total=price+deliveryPrice;
+            $("#total-price").text(total);
+
+
+
+            if(restoran in storage){
+              storage[restoran].orders.push({name:foodName, price: foodPrice});
+            }else{
+              storage[restoran]={};
+              storage[restoran].orders=[{name:foodName, price: foodPrice}];
+            }
+            storage[restoran].total=total;
+            storage[restoran].price=price;
+            storage[restoran].deliver=deliveryPrice;
+            storage[restoran].name=$("#restoran-name").attr('rel');
+            sessionStorage.setItem("dostava", JSON.stringify(storage));
+
+
+
+        }
+    </script>
+
+    <a id="button"><i class="fas fa-angle-double-up text-white"></i></a>
+    <a id="restoran" rel="imasushi"></a>
+    <a id="restoran-name" rel="IMA SUSHi"></a>
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="../index.html">
+                    <img id="light-logo" class="logo" src="../images/logo_light.png">
+                    <img id="dark-logo" class=" logo hidden-logo" src="../images/logo.png">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars toggler"></i>
+
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Početna </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../onama.html">O&#8239;nama</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="../restorani.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Restorani
+                        </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="../restorani.html?opstina=vracar">Vračar</a>
+                                <a class="dropdown-item" href="../restorani.html?opstina=zvezdara">Zvezdara</a>
+                                <a class="dropdown-item" href="../restorani.html?opstina=palilula">Palilula</a>
+                                <a class="dropdown-item" href="../restorani.html?opstina=novi-beograd">Novi Beograd</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="../dostava.html">Dostava</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../kontakt.html">Kontakt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../korpa.html"><i class="fa fa-shopping-cart"></i> </a>
+                        </li>
+                        <li class="nav-item ml-md-2">
+                            <form class="forma-pretrage" action="../restorani.html">
+                                <input class="pretraga" name="search" type="text" placeholder="pretraga...">
+                                <i class="fa fa-search"></i>
+                            </form>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="../images/serbia.png">
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#"><img src="../images/united-kingdom.png">&nbsp;English</a>
+
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <nav aria-label="breadcrumb" class="dropdown-putanja">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="../dostava.html">Dostava</a></li>
+                <li class="breadcrumb-item active" aria-current="page">IMA SUSHi Menu</li>
+            </ol>
+        </nav>
+    </div>
+    <div id="headerSlike" class="carousel slide" data-ride="carousel" data-interval="5000">
+        <div class="carousel-inner">
+            <div class="carousel-item active headerImg">
+                <img src="cover1.jpg" class="d-block w-100" alt="First slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">IMA SUSHi</h1>
+                    <p class="display-undertext">Zvezdara</p>
+                </div>
+            </div>
+            <div class="carousel-item headerImg">
+                <img src="cover2.jpg" class="d-block w-100" alt="Second slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">IMA SUSHi</h1>
+                    <p class="display-undertext">Zvezdara</p>
+                </div>
+            </div>
+            <div class="carousel-item headerImg">
+                <img src="cover3.jpg" class="d-block w-100" alt="Third slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">IMA SUSHi</h1>
+                    <p class="display-undertext">Zvezdara</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#headerSlike" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#headerSlike" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <div class="content-holder">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-8  mt-3 order-2 order-md-2 order-lg-1">
+                    <div class="card mb-3">
+                      <header class="card-header">
+                        <h4 class="card-title foodname pink-text"><i class="fas fa-book-open"></i> Jelovnik</h4>
+                      </header>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-horizontal-2">
+                            <div class="image-card-holder pl-0 col-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="food1.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-8 col-md-6 col-lg-8">
+                                <h4 class="card-title foodname">Curry special roll</h4>
+                                <p class="card-text m-small">Nori, rice, deep fried crab stick, avocado on top, curry sauce, eel sauce, crunchy tempura.</p>
+                                <h5 class="cenah5">Cena: <span class="cena">880</span> RSD</h5>
+                                <a href="javascript:dodaj(0);" class="btn-pink btn-unique text-center small-btn automargin">Dodaj u korpu</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-horizontal-2">
+                            <div class="image-card-holder pl-0 col-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="food2.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-8 col-md-6 col-lg-8">
+                                <h4 class="card-title foodname">Imasushi set</h4>
+                                <p class="card-text m-small">California salmon roll x1, California tuna roll x1, nigiri salmon x2, nigiri tuna x2, nigiri prawns x2.</p>
+                                <h5 class="cenah5">Cena: <span class="cena">1900</span> RSD</h5>
+                                <a href="javascript:dodaj(1);" class="btn-pink btn-unique text-center small-btn automargin">Dodaj u korpu</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-horizontal-2">
+                            <div class="image-card-holder pl-0 col-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="food3.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-8 col-md-6 col-lg-8">
+                                <h4 class="card-title foodname">Imasushi roll</h4>
+                                <p class="card-text m-small">Nori, rice, fried prawns, mayo, avocado, salmon on top, Imasushi sauce, truffle mayo, crunchy onion.</p>
+                                <h5 class="cenah5">Cena: <span class="cena">850</span> RSD</h5>
+                                <a href="javascript:dodaj(2);" class="btn-pink btn-unique text-center small-btn automargin">Dodaj u korpu</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-horizontal-2">
+                            <div class="image-card-holder pl-0 col-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="food4.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-8 col-md-6 col-lg-8">
+                                <h4 class="card-title foodname">Miso soup</h4>
+                                <p class="card-text m-small">Traditional miso soup.</p>
+                                <h5 class="cenah5">Cena: <span class="cena">180</span> RSD</h5>
+                                <a href="javascript:dodaj(3);" class="btn-pink btn-unique text-center small-btn automargin">Dodaj u korpu</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="col-lg-4  mt-3 order-1 order-md-1 order-lg-2">
+                    <div class="card mb-2">
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title"> <i class="fas fa-truck"></i> Dostava </h6>
+                            </header>
+                            <div class="card-body">
+                              <div>
+                              <div class="d-flex flex-row">
+                                  <div class="mr-auto">Dostava:</div>
+                                  <div><span id="original-delivery-price">500</span> RSD</div>
+                              </div>
+                              <hr>
+                              <div class="d-flex flex-row">
+                                  <div id="free-shipping" rel="1" class="mr-auto pink-text">Besplatna dostava</div>
+                                  <div><i class="fas fa-check-square pink-text"></i></div>
+                              </div>
+                              <div class="d-flex flex-row">
+                                  <div class="mr-auto">Minimum:</div>
+                                  <div><span id="minimal-delivery">1000</span> RSD</div>
+                              </div>
+                              </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="card">
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title"> <i class="fas fa-shopping-cart"></i> Vaša korpa </h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <form id="korpa">
+                                        <div id="dodato">
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="d-flex flex-row">
+                                            <div class="mr-auto">Cena:</div>
+                                            <div><span id="food-price">0</span> RSD</div>
+                                        </div>
+                                        <div class="d-flex flex-row">
+                                            <div class="mr-auto">Dostava:</div>
+                                            <div><span id="delivery-price">300</span><span class="isfree"> RSD</span></div>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex flex-row">
+                                            <div class="mr-auto">Ukupno:</div>
+                                            <div><span id="total-price">0</span> RSD</div>
+                                        </div>
+                                    </form>
+                                    <div class="text-right">
+                                      <a href="../korpa.html" id="continue" class="btn-pink btn-unique text-center small-btn btn-right none">Nastavi</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </article>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+        <hr>
+        <div class="container">
+
+            <div class="banner-section">
+                <div class="container">
+                    <div class="row p-5 justify-content-around text-center">
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="../images/banner1.png">
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="../images/banner2.png">
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="../images/banner3.png">
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="../images/banner4.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer" class="container">
+        <div class="row">
+            <div class="col text-center p-3">
+                <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-square fa-2x footer-text"></i></a>
+                <a href="https://rs.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-2x footer-text"></i></a>
+                <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter-square fa-2x footer-text"></i></a>
+                <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube-square fa-2x footer-text"></i></a>
+                <hr>
+                <span class="footer-text"><i class="far fa-copyright"></i> Copyright 2019, Vuk Bakić, Одсек за софтверско инжењерство Електротехничког факултета Универзитета у Београду</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

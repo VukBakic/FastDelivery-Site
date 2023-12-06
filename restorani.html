@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome/css/all.css">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Fast Delivery - Restorani</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <script src="js/jquery-3.2.1.min.js" </script>
+    <script src="js/popper.min.js"</script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        let queryString = document.location.search.slice(1).split("=");
+        if (queryString[0] == "opstina") {
+            $(`input[rel=${queryString[1]}]`).prop("checked", true);
+            filterOpstina();
+        }
+        if (queryString[0] == "search") {
+            searchByName(queryString[1]);
+        }
+        let stars = JSON.parse(localStorage.getItem("stars"));
+        $(".id-restorana").each(function() {
+            let id = $(this).attr('rel');
+
+            if (stars && id in stars) {
+                $(this.children[0]).addClass(`fa-${stars[id]}stars`);
+                $(this.children[0]).attr('rel', stars[id]);
+            }
+        })
+        $('#filter-opstina').find('input:checkbox').click(function() {
+            filterOpstina();
+        });
+        $('#sort').change(function() {
+            var restorani = [];
+            $('.restoran').each(function() {
+                restorani.push((this));
+            });
+
+            switch ($("#sort option:selected").val()) {
+                case "name":
+                    restorani.sort(byName);
+                    break;
+                case "stars":
+                    restorani.sort(byRating);
+                    break;
+                default:
+                    console.log("Error");
+                    break
+            }
+
+            $('#spisak').append(restorani);
+
+        });
+    })
+
+    function filterOpstina() {
+        let check = $('#filter-opstina').find('input:checked');
+        if (check.length) {
+            $('.restoran').hide();
+            check.each(function() {
+                $('.restoran.' + $(this).attr('rel')).show();
+            });
+        } else {
+            $('.restoran').show();
+        }
+    }
+
+    function searchByName(ime) {
+        $('.restoran').each(function() {
+            if ($(this.getElementsByClassName("card-title")).text().toLocaleLowerCase().search(ime.toLocaleLowerCase()) == -1)
+                $(this).hide();
+        })
+
+    }
+
+    function byName(a, b) {
+        return $(a.getElementsByClassName("card-title")).text().localeCompare($(b.getElementsByClassName("card-title")).text());
+    }
+
+    function byRating(a, b) {
+        return parseInt($(b.getElementsByClassName("zvezdice")).attr('rel')) - parseInt(($(a.getElementsByClassName("zvezdice")).attr('rel')));
+    }
+
+    </script>
+
+    <a id="button"><i class="fas fa-angle-double-up text-white"></i></a>
+
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="index.html">
+                    <img id="light-logo" class="logo" src="images/logo_light.png"></img>
+                    <img id="dark-logo" class=" logo hidden-logo" src="images/logo.png"></img>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars toggler"></i>
+
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Početna </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="onama.html">O&#8239;nama</a>
+                        </li>
+                        <li class="nav-item dropdown active">
+                            <a class="nav-link dropdown-toggle" href="restorani.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Restorani
+                        </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                              <a class="dropdown-item" href="restorani.html?opstina=vracar">Vračar</a>
+                              <a class="dropdown-item" href="restorani.html?opstina=zvezdara">Zvezdara</a>
+                              <a class="dropdown-item" href="restorani.html?opstina=palilula">Palilula</a>
+                              <a class="dropdown-item" href="restorani.html?opstina=novi-beograd">Novi Beograd</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="dostava.html">Dostava</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="kontakt.html">Kontakt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="korpa.html"><i class="fa fa-shopping-cart"></i> </a>
+                        </li>
+                        <li class="nav-item ml-md-2">
+                          <form class="forma-pretrage" action="restorani.html">
+                              <input class="pretraga" name="search" type="text" placeholder="pretraga...">
+                              <i class="fa fa-search"></i>
+                          </form>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="images/serbia.png"></img>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="en/restaurants.html"><img src="images/united-kingdom.png"></img>&nbsp;English</a>
+
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <nav aria-label="breadcrumb" class="dropdown-putanja">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Restorani</li>
+            </ol>
+        </nav>
+    </div>
+    <div id="headerSlike" class="carousel slide" data-ride="carousel" data-interval="5000">
+        <div class="carousel-inner">
+            <div class="carousel-item active headerImg">
+                <img src="images/cover1.jpg" class="d-block w-100" alt="First slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">DOSTAVA HRANE</h1>
+                    <p class="display-undertext">Naručite hranu iz najboljih restorana u Beogradu.</p>
+                </div>
+            </div>
+            <div class="carousel-item headerImg">
+                <img src="images/cover2.jpg" class="d-block w-100" alt="Second slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">DOSTAVA HRANE</h1>
+                    <p class="display-undertext">Naručite hranu iz najboljih restorana u Beogradu.</p>
+                </div>
+            </div>
+            <div class="carousel-item headerImg">
+                <img src="images/cover3.jpg" class="d-block w-100" alt="Third slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">DOSTAVA HRANE</h1>
+                    <p class="display-undertext">Naručite hranu iz najboljih restorana u Beogradu.</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#headerSlike" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#headerSlike" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <div class="content-holder">
+
+        <div class="container mt-5 mt-sm-0">
+
+            <div class="row pt-5" id="spisak">
+                <aside class="col-lg-4 col-md-6">
+
+                    <div class="card side-panel">
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title">Opština </h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <form id="filter-opstina">
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="vracar">
+                                            <span class="form-check-label">Vračar</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="zvezdara">
+                                            <span class="form-check-label">Zvezdara</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="palilula">
+                                            <span class="form-check-label">Palilula</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="novi-beograd">
+                                            <span class="form-check-label">Novi Beograd</span>
+                                        </label>
+
+                                    </form>
+
+                                </div>
+                                <!-- card-body.// -->
+                            </div>
+                        </article>
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title">Sortiraj</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <select class="form-control" id="sort">
+                                            <option disabled selected>Sortiraj po</option>
+                                            <option value="name">Nazivu</option>
+                                            <option value="stars">Oceni</option>
+
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <!-- card-body.// -->
+                            </div>
+                        </article>
+                    </div>
+                    <div class="card mt-5 side-panel">
+                        <a href="kontakt.html?prijavi" class="btn-pink btn-unique text-center">PRIJAVITE SVOJ RESTORAN</a>
+
+                    </div>
+                </aside>
+
+                <div class="restoran mb-5 col-lg-4 col-md-6 mt-5 mt-md-0 novi-beograd">
+                    <div class="card card-cascade narrower">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade">
+                            <div class="image-card-holder">
+                                <img class="slika-restorana card-img-top" src="pizzabar/pizza-bar.png" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade">
+
+                            <div class="label">
+                                <h5 class="pink-text pb-2 pt-1 float-left"><i class="fas fa-pizza-slice"></i> Picerija </h5>
+                                <p class="float-right id-restorana" rel="pizzabar"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <div class="clear-both"></div>
+                            </div>
+                            <!-- Title -->
+                            <h4 class="font-weight-bold card-title ">Pizza Bar</h4>
+                            <!-- Text -->
+                            <p class="card-text">Pizza bar je mesto gde ćete pustiti sebi na volju, dok se mi brinemo za Vas. Nežan dodir američkog lifestyle-a i italijanske kuhinje, pizze, paste i najelegantnije poslastice će vam učiniti dan posebnim.</p>
+                            <!-- Button -->
+                            <div class="d-flex justify-content-between flex-wrap align-content-center align-content-md-start">
+                                <a href="pizzabar/pizza-bar-order.html" class="btn-pink btn-unique mt-2">Naruči</a>
+                                <a href="pizzabar/pizza-bar.html" class="pink-text readmore"><h5>Pogledaj <i class="fas fa-angle-double-right"></i></h5></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="restoran mb-5 col-lg-4 col-md-6 mt-5 mt-md-0 vracar">
+                    <div class="card card-cascade narrower">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade">
+                            <div class="image-card-holder">
+                                <img class="slika-restorana card-img-top" src="meatandmeet/logo.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade">
+
+                            <!-- Label -->
+                            <div class="label">
+                                <h5 class="pink-text pb-2 pt-1 float-left"><i class="fas fa-hamburger"></i> Brza hrana </h5>
+                                <p class="float-right id-restorana" rel="meatandmeet"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <div class="clear-both"></div>
+                            </div>
+                            <!-- Title -->
+                            <h4 class="font-weight-bold card-title">Meat & Meet</h4>
+                            <!-- Text -->
+                            <p class="card-text">Da li Vam je dosadila, klasična, dosadna brza hrana koja je na svakom ćošku ista? Da li želite sebi da priuštite kvalitetnu i zdravu hranu? Ukoliko je odgovor da ali ne znate gde takvu hranu možete naći, došli ste na pravo mesto!</p>
+                            <!-- Button -->
+                            <div class="d-flex justify-content-between flex-wrap align-content-center align-content-md-start">
+                                <a href="meatandmeet/meat-and-meet-order.html" class="btn-pink btn-unique mt-2">Naruči</a>
+                                <a href="meatandmeet/meat-and-meet.html" class="pink-text readmore"><h5>Pogledaj <i class="fas fa-angle-double-right"></i></h5></a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="restoran mb-5 col-lg-4 col-md-6 mt-5 mt-md-0 novi-beograd">
+                    <div class="card card-cascade narrower">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade">
+                            <div class="image-card-holder">
+                                <img class="slika-restorana card-img-top" src="fitbar/glavna.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade">
+
+                            <div class="label">
+                                <h5 class="pink-text pb-2 pt-1 float-left"><i class="fas fa-utensils"></i> Restoran </h5>
+                                <p class="float-right id-restorana" rel="fitbar"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <div class="clear-both"></div>
+                            </div>
+                            <!-- Title -->
+                            <h4 class="font-weight-bold card-title">Fit Bar</h4>
+                            <!-- Text -->
+                            <p class="card-text">FitBar svoj koncept zasniva na pripremi svežih i dobro izbalansiranih sastojaka, koji daju jela odličnog ukusa. Bilo da ste posvećeni određenom tipu ishrane, bavite sportom ili jednostavno vodite računa o svom zdravlju i tome šta jedete, u FitBar- ćete zadovoljiti svoju potrebu za pravom hranom.</p>
+                            <!-- Button -->
+                            <div class="d-flex justify-content-between flex-wrap align-content-center align-content-md-start">
+                                <a href="fitbar/fitbar-order.html" class="btn-pink btn-unique mt-2">Naruči</a>
+                                <a href="fitbar/fitbar.html" class="pink-text readmore"><h5>Pogledaj <i class="fas fa-angle-double-right"></i></h5></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="restoran mb-5 col-lg-4 col-md-6 mt-5 mt-md-0 zvezdara">
+                    <div class="card card-cascade narrower ">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade">
+                            <div class="image-card-holder">
+                                <img class="slika-restorana card-img-top" src="basilico/basilico.png" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade">
+
+                            <!-- Label -->
+                            <div class="label">
+                                <h5 class="pink-text pb-2 pt-1 float-left"><i class="fas fa-pizza-slice"></i> Picerija </h5>
+                                <p class="float-right id-restorana" rel="basilico"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <div class="clear-both"></div>
+                            </div>
+                            <!-- Title -->
+                            <h4 class="font-weight-bold card-title">Basilico</h4>
+                            <!-- Text -->
+                            <p class="card-text">Basilico picerija nastala je iz ljubavi prema italijanskoj kuhinji, potrebi za savršenstvom i potpunim ukusom koji ostaje zauvek u uspomenama. Posle dugo godina degustacije po beogradskim restoranima, došli smo do ideje da se oprobamo i mi, u već velikoj ponudi i konkurenciji, na naš način.</p>
+                            <!-- Button -->
+                            <div class="d-flex justify-content-between flex-wrap align-content-center align-content-md-start">
+                                <a href="basilico/basilico-order.html" class="btn-pink btn-unique mt-2">Naruči</a>
+                                <a href="basilico/basilico.html" class="pink-text readmore"><h5>Pogledaj <i class="fas fa-angle-double-right"></i></h5></a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="restoran mb-5 col-lg-4 col-md-6 mt-5 mt-md-0 vracar">
+                    <div class="card card-cascade narrower ">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade">
+                            <div class="image-card-holder">
+                                <img class="slika-restorana card-img-top" src="grill51/logo.png" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade">
+
+                            <!-- Label -->
+                            <div class="label">
+                                <h5 class="pink-text pb-2 pt-1 float-left"><i class="fas fa-hamburger"></i> Rostilj </h5>
+                                <p class="float-right id-restorana" rel="grill51"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <div class="clear-both"></div>
+                            </div>
+                            <!-- Title -->
+                            <h4 class="font-weight-bold card-title">Grill 51</h4>
+                            <!-- Text -->
+                            <p class="card-text">Grill 51 Vam nudi veliki izbor jela sa rostilja. Narucite i uverite se zasto smo broj 1 u Beogradu. Kod nas se jede i kad niste gladni!</p>
+                            <!-- Button -->
+                            <div class="d-flex justify-content-between flex-wrap align-content-center align-content-md-start">
+                                <a href="grill51/grill51-order.html" class="btn-pink btn-unique mt-2">Naruči</a>
+                                <a href="grill51/grill51.html" class="pink-text readmore"><h5>Pogledaj <i class="fas fa-angle-double-right"></i></h5></a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="restoran mb-5 col-lg-4 col-md-6 mt-5 mt-md-0 palilula">
+                    <div class="card card-cascade narrower ">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade">
+                            <div class="image-card-holder">
+                                <img class="slika-restorana card-img-top" src="intergalactic/logo.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade">
+
+                            <!-- Label -->
+                            <div class="label">
+                                <h5 class="pink-text pb-2 pt-1 float-left"><i class="fas fa-utensils"></i> Restoran </h5>
+                                <p class="float-right id-restorana" rel="intergalactic"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <div class="clear-both"></div>
+                            </div>
+                            <!-- Title -->
+                            <h4 class="font-weight-bold card-title">Intergalactic Diner</h4>
+                            <!-- Text -->
+                            <p class="card-text">Mi stvarno koristimo najkvalitetnije sirovine i sastojke sa planete Zemlja. U to što radimo za Vas, naše goste, ulažemo puno truda i ljubavi a ne naplaćujemo mnogo. Uverite se i sami samo budite upozoreni… Once you eat here, you’ll always return.</p>
+                            <!-- Button -->
+                            <div class="d-flex justify-content-between flex-wrap align-content-center align-content-md-start">
+                                <a href="intergalactic/intergalactic-order.html" class="btn-pink btn-unique mt-2">Naruči</a>
+                                <a href="intergalactic/intergalactic.html" class="pink-text readmore"><h5>Pogledaj <i class="fas fa-angle-double-right"></i></h5></a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="restoran mb-5 col-lg-4 col-md-6 mt-5 mt-md-0 zvezdara">
+                    <div class="card card-cascade narrower ">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade">
+                            <div class="image-card-holder">
+                                <img class="slika-restorana card-img-top" src="imasushi/logo.png" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade">
+
+                            <!-- Label -->
+                            <div class="label">
+                                <h5 class="pink-text pb-2 pt-1 float-left"><i class="fas fa-utensils"></i> Restoran </h5>
+                                <p class="float-right id-restorana" rel="imasushi"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <div class="clear-both"></div>
+                            </div>
+                            <!-- Title -->
+                            <h4 class="font-weight-bold card-title">IMA SUSHi</h4>
+                            <!-- Text -->
+                            <p class="card-text">Sjajan balans tradicionalnog i modernog, originalna tehnika u pripremi pirinča i tretmanu svake namirnice sa jedne, a sa druge strane kreativan pristup i lucidno kombinovanje sastojaka u konačnom zbiru daju istinsku simfoniju ukusa na nepcima.</p>
+                            <!-- Button -->
+                            <div class="d-flex justify-content-between flex-wrap align-content-center align-content-md-start">
+                                <a href="imasushi/imasushi-order.html" class="btn-pink btn-unique mt-2">Naruči</a>
+                                <a href="imasushi/imasushi.html" class="pink-text readmore"><h5>Pogledaj <i class="fas fa-angle-double-right"></i></h5></a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="restoran mb-5 col-lg-4 col-md-6 mt-5 mt-md-0 palilula">
+                    <div class="card card-cascade narrower ">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade">
+                            <div class="image-card-holder">
+                                <img class="slika-restorana card-img-top" src="jerry/logo.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade">
+
+                            <!-- Label -->
+                            <div class="label">
+                                <h5 class="pink-text pb-2 pt-1 float-left"><i class="fas fa-hamburger"></i> Brza hrana </h5>
+                                <p class="float-right id-restorana" rel="jerry"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <div class="clear-both"></div>
+                            </div>
+                            <!-- Title -->
+                            <h4 class="font-weight-bold card-title">Jerry 011</h4>
+                            <!-- Text -->
+                            <p class="card-text">Jerry 011 Vam nudi veliki izbor jela sa rostilja. Narucite i uverite se zasto smo broj 1 u Beogradu. Kod nas se jede i kad niste gladni!</p>
+                            <!-- Button -->
+                            <div class="d-flex justify-content-between flex-wrap align-content-center align-content-md-start">
+                                <a href="jerry/jerry-order.html" class="btn-pink btn-unique mt-2">Naruči</a>
+                                <a href="jerry/jerry.html" class="pink-text readmore"><h5>Pogledaj <i class="fas fa-angle-double-right"></i></h5></a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+          </div>
+          <hr>
+          <div class="container">
+
+            <div class="banner-section">
+                <div class="container">
+                    <div class="row p-5 justify-content-around text-center">
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="images/banner1.png"></img>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="images/banner2.png"></img>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="images/banner3.png"></img>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="images/banner4.png"></img>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer" class="container">
+        <div class="row">
+            <div class="col text-center p-3">
+                <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-square fa-2x footer-text"></i></a>
+                <a href="https://rs.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-2x footer-text"></i></a>
+                <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter-square fa-2x footer-text"></i></a>
+                <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube-square fa-2x footer-text"></i></a>
+                <hr>
+                <span class="footer-text"><i class="far fa-copyright"></i> Copyright 2019, Vuk Bakić, Одсек за софтверско инжењерство Електротехничког факултета Универзитета у Београду</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

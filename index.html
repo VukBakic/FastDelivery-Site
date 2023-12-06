@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome/css/all.css">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Fast Delivery</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/restorani.js"></script>
+    <script>
+      $(document).ready(function() {
+        let stars = JSON.parse(localStorage.getItem("stars"));
+        let niz=[];
+        for (var key in stars) {
+            niz.push({name:key, stars:stars[key]});
+        }
+        niz=niz.sort(function(a,b){
+        	return b.stars-a.stars;
+        })
+        let set=new Set();
+        let i;
+        for(i=0; i<3 && i<niz.length; i++){
+          let restoran = restorani.find(function(element) {
+            return element.id == niz[i].name;
+          });
+          set.add(restoran.name);
+          let placeholder=$(`#placeholder${i+1}`);
+
+          placeholder.find('img').attr('src',restoran.image);
+          placeholder.find('h4').text(restoran.name);
+          placeholder.find('.zvezdice').addClass(`fa-${niz[i].stars}stars`);
+          placeholder.find('.light-text').text(restoran.text);
+          placeholder.find('a').attr('href',restoran.link);
+
+        }
+
+
+        for(i;i<3;i++){
+          let placeholder = $(`#placeholder${i+1}`);
+          if(!set.has(placeholder.find('h4').text())) {
+            set.add(placeholder.find('h4').text());
+            continue;
+          }
+          for(let j=0; j<restorani.length;j++){
+              if(!set.has(restorani[j].name)){
+                placeholder.find('img').attr('src',restorani[j].image);
+                placeholder.find('h4').text(restorani[j].name);
+                placeholder.find('.light-text').text(restorani[j].text);
+                placeholder.find('a').attr('href',restorani[j].link);
+                break;
+              }
+          }
+
+        }
+
+
+
+      });
+    </script>
+    <a id="button"><i class="fas fa-angle-double-up text-white"></i></a>
+
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="index.html">
+                    <img id="light-logo" class="logo" src="images/logo_light.png"></img>
+                    <img id="dark-logo" class=" logo hidden-logo" src="images/logo.png"></img>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars toggler"></i>
+
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link disabled" href="index.html">Početna </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="onama.html">O&#8239;nama</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="restorani.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Restorani
+                        </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="restorani.html?opstina=vracar">Vračar</a>
+                                <a class="dropdown-item" href="restorani.html?opstina=zvezdara">Zvezdara</a>
+                                <a class="dropdown-item" href="restorani.html?opstina=palilula">Palilula</a>
+                                <a class="dropdown-item" href="restorani.html?opstina=novi-beograd">Novi Beograd</a>
+
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="dostava.html">Dostava</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="kontakt.html">Kontakt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="korpa.html"><i class="fa fa-shopping-cart"></i> </a>
+                        </li>
+                        <li class="nav-item ml-md-2">
+                            <form class="forma-pretrage" action="restorani.html">
+                                <input class="pretraga" name="search" type="text" placeholder="pretraga...">
+                                <i class="fa fa-search"></i>
+                            </form>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="images/serbia.png"></img>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="home.html"><img src="images/united-kingdom.png"></img>&nbsp;English</a>
+
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+
+	<div id="headerSlike" class="carousel slide" data-ride="carousel" data-interval="5000">
+			<div class="carousel-inner">
+				<div class="carousel-item active headerImg">
+					<img src="images/cover1.jpg" class="d-block w-100" alt="First slide">
+					<div class="carousel-caption">
+					  <h1 class="display-4">DOSTAVA HRANE</h1>
+					  <p class="display-undertext">Naručite hranu iz najboljih restorana u Beogradu.</p>
+					</div>
+				</div>
+				<div class="carousel-item headerImg">
+					<img src="images/cover2.jpg" class="d-block w-100" alt="Second slide">
+					<div class="carousel-caption">
+					  <h1 class="display-4">DOSTAVA HRANE</h1>
+					  <p class="display-undertext">Naručite hranu iz najboljih restorana u Beogradu.</p>
+					</div>
+				</div>
+				<div class="carousel-item headerImg">
+					<img src="images/cover3.jpg" class="d-block w-100" alt="Third slide">
+					<div class="carousel-caption">
+					  <h1 class="display-4">DOSTAVA HRANE</h1>
+					  <p class="display-undertext">Naručite hranu iz najboljih restorana u Beogradu.</p>
+					</div>
+				</div>
+			</div>
+			<a class="carousel-control-prev" href="#headerSlike" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="carousel-control-next" href="#headerSlike" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
+	</div>
+
+	<div class="content-holder">
+		<div class="container text-center mt-5 mt-sm-0">
+		<div class="row p-5">
+			<div class="col">
+        <div class="clearfix mt-md-3">
+          <h1 class="big-pink-text">Zasto naručivati hranu preko našeg portala?</h1>
+        </div>
+			</div>
+		</div>
+        <div class="row p-3">
+          <div class="col-md-4">
+            <img class="rounded-circle" src="images/feature1.png" alt="Feature Image" width="100" height="100">
+            <h5 class="pt-3">Izbor</h5>
+            <p class="text-features">Nudimo vam veliki izbor restorana u Beogradu. Na sajtu možete pronaći jelovnike od preko 100 restorana.</p>
+
+          </div>
+          <div class="col-md-4">
+            <img class="rounded-circle" src="images/feature2.png" alt="Feature Image" width="100" height="100">
+            <h5 class="pt-3">Kvalitet</h5>
+            <p class="text-features">Sarađujemo sa najboljim restoranima u gradu. U kvalitet usluge mogu vas uveriti naši dugogodišnji korisnici.</p>
+
+          </div>
+          <div class="col-md-4">
+            <img class="rounded-circle" src="images/feature3.png" alt="Feature Image" width="100" height="100">
+            <h5 class="pt-3">Cena</h5>
+            <p class="text-features">Veoma nam je bitan odnos cena-kvalitet ali i pristupačnost naših usluga. Svakodnevno nudimo promocije i popuste kako na dostavu tako i na jelovnike.</p>
+          </div>
+        </div>
+        <div class="row p-3">
+          <div class="col-md-4">
+            <img class="rounded-circle" src="images/feature4.png" alt="Feature Image" width="100" height="100">
+            <h5 class="pt-3">Brzina</h5>
+            <p class="text-features">Garantujemo brzinu naše usluge.</p>
+
+          </div>
+          <div class="col-md-4">
+            <img class="rounded-circle" src="images/feature5.png" alt="Feature Image" width="100" height="100">
+            <h5 class="pt-3">Naručivanje</h5>
+            <p class="text-features">Mogućnost brzog i jednostavnog naručivanja hrane sa vašeg uređaja.</p>
+
+          </div>
+          <div class="col-md-4">
+            <img class="rounded-circle" src="images/feature6.png" alt="Feature Image" width="100" height="100">
+            <h5 class="pt-3">Ocene</h5>
+            <p class="text-features">Nudimo vam mogućnost ocenivanja vaših omiljenih restorana.</p>
+          </div>
+        </div>
+	</div>
+	<div class="bg-dark2 pt-5 pb-5">
+		<div class="container">
+			<div class="row ">
+	       <div class="col-12 col-lg-4 pb-5">
+           <div id="placeholder1" class="card card-cascade card-dark max-height text-center">
+
+               <div class="view view-cascade">
+                   <div class="image-card-holder">
+                       <img class="slika-restorana card-img-top" src="pizzabar/pizza-bar.png" alt="Card image cap">
+                       <div class="overlay">
+                       </div>
+                   </div>
+               </div>
+
+               <div class="card-body">
+                   <h4 class="font-weight-bold card-title white-title">Pizza Bar</h4>
+                   <div class="label">
+                       <p class="id-restorana" rel="pizzabar"><i rel="0" class="zvezdice fas lsp-4 pink-text"></i></p>
+                       <div class="clear-both"></div>
+                   </div>
+                   <p class="card-text light-text">Pizza bar je mesto gde ćete pustiti sebi na volju, dok se mi brinemo za Vas. Nežan dodir američkog lifestyle-a i italijanske kuhinje, pizze, paste i najelegantnije poslastice će vam učiniti dan posebnim.</p>
+                   <a href="pizzabar/pizza-bar.html" class="btn-pink btn-unique mt-2 btn-abs">Pogledaj</a>
+
+               </div>
+
+           </div>
+         </div>
+         <div class="col-12 col-lg-4 pb-5">
+           <div id="placeholder2" class="card card-cascade card-dark max-height text-center">
+
+               <div class="view view-cascade">
+                   <div class="image-card-holder">
+                       <img class="slika-restorana card-img-top" src="meatandmeet/logo.jpg" alt="Card image cap">
+                       <div class="overlay">
+                       </div>
+                   </div>
+               </div>
+
+               <div class="card-body">
+                   <h4 class="font-weight-bold card-title white-title">Meat & Meet</h4>
+                   <div class="label">
+                       <p class="id-restorana" rel="pizzabar"><i rel="0" class="zvezdice fas lsp-4 pink-text"></i></p>
+                       <div class="clear-both"></div>
+                   </div>
+                   <p class="card-text light-text">Da li Vam je dosadila, klasična, dosadna brza hrana koja je na svakom ćošku ista? Da li želite sebi da priuštite kvalitetnu i zdravu hranu? Ukoliko je odgovor da ali ne znate gde takvu hranu možete naći, došli ste na pravo mesto!</p>
+                   <a href="meatandmeet/meat-and-meet.html" class="btn-pink btn-unique mt-2 btn-abs">Pogledaj</a>
+
+               </div>
+
+           </div>
+         </div>
+         <div class="col-12 col-lg-4 pb-5">
+           <div id="placeholder3" class="card card-cascade card-dark max-height text-center">
+
+               <div class="view view-cascade">
+                   <div class="image-card-holder">
+                       <img class="slika-restorana card-img-top" src="fitbar/glavna.jpg" alt="Card image cap">
+                       <div class="overlay">
+                       </div>
+                   </div>
+               </div>
+
+               <div class="card-body">
+                   <h4 class="font-weight-bold card-title white-title">Fit Bar</h4>
+                   <div class="label">
+                       <p class="id-restorana" rel="pizzabar"><i rel="0" class="zvezdice fas lsp-4 pink-text"></i></p>
+                       <div class="clear-both"></div>
+                   </div>
+                   <p class="card-text light-text">FitBar svoj koncept zasniva na pripremi svežih i dobro izbalansiranih sastojaka, koji daju jela odličnog ukusa. Bilo da ste posvećeni određenom tipu ishrane, bavite sportom ili jednostavno vodite računa o svom zdravlju i tome šta jedete, u FitBar- ćete zadovoljiti svoju potrebu za pravom hranom.</p>
+                   <a href="fitbar/fitbar-order.html" class="btn-pink btn-unique mt-2 btn-abs">Pogledaj</a>
+
+               </div>
+
+           </div>
+         </div>
+			</div>
+		</div>
+	</div>
+  <div class="container">
+
+      <div class="banner-section">
+          <div class="container">
+              <div class="row p-5 justify-content-around text-center">
+                  <div class="col-6 col-sm-3">
+                      <div class="banner-holder">
+                          <img class="img-fluid banneri mt-2" src="images/banner1.png"></img>
+                      </div>
+                  </div>
+                  <div class="col-6 col-sm-3">
+                      <div class="banner-holder">
+                          <img class="img-fluid banneri mt-2" src="images/banner2.png"></img>
+                      </div>
+                  </div>
+                  <div class="col-6 col-sm-3">
+                      <div class="banner-holder">
+                          <img class="img-fluid banneri mt-2" src="images/banner3.png"></img>
+                      </div>
+                  </div>
+                  <div class="col-6 col-sm-3">
+                      <div class="banner-holder">
+                          <img class="img-fluid banneri mt-2" src="images/banner4.png"></img>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+  <div id="footer" class="container">
+      <div class="row">
+          <div class="col text-center p-3">
+              <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-square fa-2x footer-text"></i></a>
+              <a href="https://rs.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-2x footer-text"></i></a>
+              <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter-square fa-2x footer-text"></i></a>
+              <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube-square fa-2x footer-text"></i></a>
+              <hr>
+              <span class="footer-text"><i class="far fa-copyright"></i> Copyright 2019, Vuk Bakić, Одсек за софтверско инжењерство Електротехничког факултета Универзитета у Београду</span>
+          </div>
+      </div>
+  </div>
+  </body>
+</html>

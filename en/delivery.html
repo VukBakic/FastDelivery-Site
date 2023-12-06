@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/fontawesome/css/all.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <title>Fast Delivery - Delivery</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <style>
+    @media (min-width: 992px) {
+      .image-card-holder{
+
+        max-height: 160px!important;
+      }
+    }
+    </style>
+</head>
+
+<body>
+    <script src ="../js/jquery-3.2.1.min.js"> </script>
+    <script src ="../js/popper.min.js"></script>
+    <script src ="../js/bootstrap.min.js"></script>
+    <script src ="../js/script.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#filterHrane').find('input:checkbox').click(function() {
+                if ($('#filterHrane').find('input:checkbox:checked').length){
+                    let selected = $(this).next().text();
+                    if(filters.includes(selected))
+                      filters.splice(filters.indexOf(selected),1);
+                     else
+                      filters.push(selected);
+                    filterHrane();
+                }
+                else{
+                    filters=[];
+                    $(".restoran").show();
+                }
+            });
+            let stars = JSON.parse(localStorage.getItem("stars"));
+            $(".id-restorana").each(function() {
+                let id = $(this).attr('rel');
+
+                if (stars && id in stars) {
+                    $(this.children[0]).addClass(`fa-${stars[id]}stars`);
+                    $(this.children[0]).attr('rel', stars[id]);
+                }
+            })
+
+        });
+        let filters=[];
+        function filterHrane() {
+            $(".restoran").each(function() {
+                let food = $(this).find(".card-text").text().split(", ");
+                food = food.filter(function(value){
+                  return filters.includes(value);
+                })
+                if(food.length) $(this).show();
+                else $(this).hide();
+            })
+        }
+    </script>
+
+    <a id="button"><i class="fas fa-angle-double-up text-white"></i></a>
+
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="../home.html">
+                    <img id="light-logo" class="logo" src="../images/logo_light.png"></img>
+                    <img id="dark-logo" class=" logo hidden-logo" src="../images/logo.png"></img>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars toggler"></i>
+
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../home.html">Home </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About&#8239;us</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="restaurants.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Restaurants
+                        </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="restaurants.html?opstina=vracar">Vračar</a>
+                                <a class="dropdown-item" href="restaurants.html?opstina=zvezdara">Zvezdara</a>
+                                <a class="dropdown-item" href="restaurants.html?opstina=palilula">Palilula</a>
+                                <a class="dropdown-item" href="restaurants.html?opstina=novi-beograd">Novi Beograd</a>
+
+                            </div>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a class="nav-link disabled" href="delivery.html">Delivery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html">Cotact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="cart.html"><i class="fa fa-shopping-cart"></i> </a>
+                        </li>
+                        <li class="nav-item ml-md-2">
+                            <form class="forma-pretrage" action="restaurants.html">
+                                <input class="pretraga" name="search" type="text" placeholder="search...">
+                                <i class="fa fa-search"></i>
+                            </form>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="../images/united-kingdom.png"></img>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="../dostava.html"><img src="../images/serbia.png"></img>&nbsp;Serbian</a>
+
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <nav aria-label="breadcrumb" class="dropdown-putanja">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Delivery</li>
+            </ol>
+        </nav>
+    </div>
+    <div id="headerSlike" class="carousel slide" data-ride="carousel" data-interval="5000">
+        <div class="carousel-inner">
+            <div class="carousel-item active headerImg">
+                <img src="../images/cover1.jpg" class="d-block w-100" alt="First slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">FOOD DELIVERY</h1>
+                    <p class="display-undertext">Order food from best restaurants in Belgrade.</p>
+                </div>
+            </div>
+            <div class="carousel-item headerImg">
+                <img src="../images/cover2.jpg" class="d-block w-100" alt="Second slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">FOOD DELIVERY</h1>
+                    <p class="display-undertext">Order food from best restaurants in Belgrade.</p>
+                </div>
+            </div>
+            <div class="carousel-item headerImg">
+                <img src="../images/cover3.jpg" class="d-block w-100" alt="Third slide">
+                <div class="carousel-caption">
+                    <h1 class="display-4">FOOD DELIVERY</h1>
+                    <p class="display-undertext">Order food from best restaurants in Belgrade.</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#headerSlike" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#headerSlike" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <div class="content-holder">
+        <div class="container mt-5 mt-sm-0">
+            <div class="row">
+                <aside class="col-lg-3 col-md-4 mt-5">
+
+                    <div class="card">
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title">Filter </h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <form id="filterHrane">
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="rostilj">
+                                            <span class="form-check-label">Roštilj</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="pizza">
+                                            <span class="form-check-label">Pizza</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="burgeri">
+                                            <span class="form-check-label">Burgeri</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="kuvana">
+                                            <span class="form-check-label">Kuvana Jela</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Sendviči</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Paste</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Doručak</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Zdrava hrana</span>
+                                        </label>
+                                        <hr>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Mediteranska hrana</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Kineska hrana</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Italijanska hrana</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Meksička hrana</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Srpska hrana</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Američka hrana</span>
+                                        </label>
+                                        <hr>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Palačinke</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" rel="sendvici">
+                                            <span class="form-check-label">Poslastice</span>
+                                        </label>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </article>
+
+                    </div>
+                    <div class="card mt-5">
+                        <a href="kontakt.html?prijavi" class="btn-pink btn-unique text-center">SIGN YOUR RESTAURANT</a>
+
+                    </div>
+                </aside>
+                <div class="col-lg-9 col-md-8 mt-5">
+                    <div class="card mb-3 restoran">
+                        <div class="card-horizontal row">
+                            <div class="image-card-holder col 12 pl-xs-0 col-xs-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="../pizzabar/pizza-bar.png" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-12 col-xs-8 col-md-6 col-lg-8">
+                                <h4 class="card-title imerestorana">Pizza Bar</h4>
+                                <p class="id-restorana m-small" rel="pizzabar"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <h5 class="ponuda">Offer:</h5>
+                                <p class="card-text m-small">Pizza, Mediteranska hrana, Italijanska hrana, Sendviči, Paste, Poslastice, Kuvana jela</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-8 col-md-9 col-lg-10">
+                                    <small class="text-muted"><i class="fas fa-truck"></i> Free Delivery</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="far fa-clock"></i> Business hours 09h-21h</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="fas fa-check-square"></i> Minimum 500 RSD</small>
+                                </div>
+                                <div class="col-sm-4 col-md-3 col-lg-2">
+
+                                    <a href="pizzabar/pizza-bar-order.html" class="btn-pink btn-unique text-center small-btn">Order</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 restoran">
+                        <div class="card-horizontal row">
+                            <div class="image-card-holder col 12 pl-xs-0 col-xs-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="../meatandmeet/logo.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-12 col-xs-8 col-md-6 col-lg-8">
+                                <h4 class="card-title imerestorana">Meat & Meet</h4>
+                                <p class="id-restorana m-small" rel="meatandmeet"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <h5 class="ponuda">Offer:</h5>
+                                <p class="card-text m-small">Sendviči, Roštilj, Doručak, Poslastice, Burgeri, Srpska hrana, Palačinke</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-8 col-md-9 col-lg-10">
+                                    <small class="text-muted"><i class="fas fa-truck"></i> Free Delivery</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="far fa-clock"></i> Business hours 24/7</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="fas fa-check-square"></i> Minimum 800 RSD</small>
+                                </div>
+                                <div class="col-sm-4 col-md-3 col-lg-2">
+
+                                    <a href="meatandmeet/meat-and-meet-order.html" class="btn-pink btn-unique text-center small-btn">Order</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 restoran">
+                        <div class="card-horizontal row">
+                            <div class="image-card-holder col 12 pl-xs-0 col-xs-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="../fitbar/glavna.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-12 col-xs-8 col-md-6 col-lg-8">
+                                <h4 class="card-title imerestorana">Fit Bar</h4>
+                                <p class="id-restorana m-small" rel="fitbar"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <h5 class="ponuda">Offer:</h5>
+                                <p class="card-text m-small">Sendviči, Roštilj, Doručak, Poslastice, Burgeri, Zdrava hrana, Palačinke, Paste, Kuvana jela</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-8 col-md-9 col-lg-10">
+                                    <small class="text-muted"><i class="fas fa-truck"></i> Free Delivery</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="far fa-clock"></i> Business hours 08h-20h</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="fas fa-check-square"></i> Minimum 800 RSD</small>
+                                </div>
+                                <div class="col-sm-4 col-md-3 col-lg-2">
+
+                                    <a href="fitbar/fitbar-order.html" class="btn-pink btn-unique text-center small-btn">Order</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 restoran">
+                        <div class="card-horizontal row">
+                            <div class="image-card-holder col 12 pl-xs-0 col-xs-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="../basilico/basilico.png" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-12 col-xs-8 col-md-6 col-lg-8">
+                                <h4 class="card-title imerestorana">Basilico</h4>
+                                <p class="id-restorana m-small" rel="basilico"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <h5 class="ponuda">Offer:</h5>
+                                <p class="card-text m-small">Italijanska hrana, Mediteranska hrana, Sendviči, Pizza, Doručak, Paste, Kuvana jela</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-8 col-md-9 col-lg-10">
+                                    <small class="text-muted"><i class="fas fa-truck"></i> Free Delivery</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="far fa-clock"></i> Business hours 08h-22h</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="fas fa-check-square"></i> Minimum 500 RSD</small>
+                                </div>
+                                <div class="col-sm-4 col-md-3 col-lg-2">
+
+                                    <a href="basilico/basilico-order.html" class="btn-pink btn-unique text-center small-btn">Order</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 restoran">
+                        <div class="card-horizontal row">
+                            <div class="image-card-holder col 12 pl-xs-0 col-xs-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="../grill51/logo.png" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-12 col-xs-8 col-md-6 col-lg-8">
+                                <h4 class="card-title imerestorana">Grill 51</h4>
+                                <p class="id-restorana m-small" rel="grill51"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <h5 class="ponuda">Offer:</h5>
+                                <p class="card-text m-small">Roštilj, Burgeri, Pizza, Sendviči, Palačinke</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-8 col-md-9 col-lg-10">
+                                    <small class="text-muted"><i class="fas fa-truck"></i> Free Delivery</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="far fa-clock"></i> Business hours 10h-22h</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="fas fa-check-square"></i> Minimum 400 RSD</small>
+                                </div>
+                                <div class="col-sm-4 col-md-3 col-lg-2">
+
+                                    <a href="grill51/grill51.html" class="btn-pink btn-unique text-center small-btn">Order</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 restoran">
+                        <div class="card-horizontal row">
+                            <div class="image-card-holder col 12 pl-xs-0 col-xs-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="../imasushi/logo.png" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-12 col-xs-8 col-md-6 col-lg-8">
+                                <h4 class="card-title imerestorana">IMA SUSHi</h4>
+                                <p class="id-restorana m-small" rel="grill51"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <h5 class="ponuda">Offer:</h5>
+                                <p class="card-text m-small">Mediteranska hrana, Kineska hrana, Poslastice, Paste, Kuvana jela</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-8 col-md-9 col-lg-10">
+                                    <small class="text-muted"><i class="fas fa-truck"></i> Free Delivery</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="far fa-clock"></i> Business hours 24/7</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="fas fa-check-square"></i> Minimum 1000 RSD</small>
+                                </div>
+                                <div class="col-sm-4 col-md-3 col-lg-2">
+
+                                    <a href="imasushi/imasushi-order.html" class="btn-pink btn-unique text-center small-btn">Order</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 restoran">
+                        <div class="card-horizontal row">
+                            <div class="image-card-holder col 12 pl-xs-0 col-xs-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="../jerry/logo.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-12 col-xs-8 col-md-6 col-lg-8">
+                                <h4 class="card-title imerestorana">Jerry 011</h4>
+                                <p class="id-restorana m-small" rel="intergalactic"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <h5 class="ponuda">Offer:</h5>
+                                <p class="card-text m-small">Sendviči, Srpska hrana, Burgeri, Roštilj, Palačinke, Poslastice, Doručak, Pizza, Paste </p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-8 col-md-9 col-lg-10">
+                                    <small class="text-muted"><i class="fas fa-truck"></i> Free Delivery</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="far fa-clock"></i> Business hours 08h-22h</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="fas fa-check-square"></i> Minimum 400 RSD</small>
+                                </div>
+                                <div class="col-sm-4 col-md-3 col-lg-2">
+
+                                    <a href="jerry/jerry.html" class="btn-pink btn-unique text-center small-btn">Order</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 restoran">
+                        <div class="card-horizontal row">
+                            <div class="image-card-holder col 12 pl-xs-0 col-xs-4 col-md-6 col-lg-4">
+                                <img class="slika-dostava" src="../intergalactic/logo.jpg" alt="Card image cap">
+                                <div class="overlay">
+                                </div>
+                            </div>
+                            <div class="card-body col-12 col-xs-8 col-md-6 col-lg-8">
+                                <h4 class="card-title imerestorana">Intergalactic Diner</h4>
+                                <p class="id-restorana m-small" rel="intergalactic"><i rel="0" class="zvezdice fas fa-xs pink-text"></i></p>
+                                <h5 class="ponuda">Offer:</h5>
+                                <p class="card-text m-small">Američka hrana, Burgeri, Roštilj, Paste, Meksička hrana, Kuvana jela </p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-8 col-md-9 col-lg-10">
+                                    <small class="text-muted"><i class="fas fa-truck"></i> Free Delivery</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="far fa-clock"></i> Business hours 08h-00h</small>
+                                    <small class="text-muted">&nbsp;&nbsp;<i class="fas fa-check-square"></i> Minimum 600 RSD</small>
+                                </div>
+                                <div class="col-sm-4 col-md-3 col-lg-2">
+
+                                    <a href="intergalactic/intergalactic-order.html" class="btn-pink btn-unique text-center small-btn">Order</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="container">
+
+            <div class="banner-section">
+                <div class="container">
+                    <div class="row p-5 justify-content-around text-center">
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="../images/banner1.png"></img>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="../images/banner2.png"></img>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="../images/banner3.png"></img>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="banner-holder">
+                                <img class="img-fluid banneri mt-2" src="../images/banner4.png"></img>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer" class="container">
+        <div class="row">
+            <div class="col text-center p-3">
+                <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-square fa-2x footer-text"></i></a>
+                <a href="https://rs.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-2x footer-text"></i></a>
+                <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter-square fa-2x footer-text"></i></a>
+                <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube-square fa-2x footer-text"></i></a>
+                <hr>
+                <span class="footer-text"><i class="far fa-copyright"></i> Copyright 2019, Vuk Bakić, Software engineering, School of Electrical Engineering, University of Belgrade</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
